@@ -1,0 +1,34 @@
+{
+  "pages":[
+    "pages/account/list/accountList",
+    "pages/account/add/accountAdd",
+    "pages/account/edit/accountEdit",
+    "pages/account/password/accountPassword",
+    "pages/setting/setting"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "账户小秘书",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/index_filling.png",
+        "iconPath": "images/index.png",
+        "pagePath": "pages/account/list/accountList",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "images/help_filling.png",
+        "iconPath": "images/help.png",
+        "pagePath": "pages/setting/setting",
+        "text": "帮助"
+      }
+    ]
+  }
+}

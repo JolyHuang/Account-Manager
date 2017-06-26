@@ -1,0 +1,39 @@
+<view class="page">
+    <view class="page__bd">
+      <view class="weui-panel weui-panel_access" wx:for="{{accountList}}" wx:key="*this">
+        <view  class="weui-form-preview">
+            <view class="weui-form-preview__hd">
+                <view class="weui-form-preview__item">
+                    <view style="font-weight:bolder;color:black;" class="weui-form-preview__label">账户</view>
+                    <view class="weui-form-preview__value_in-hd">{{item.accountName}}</view>
+                </view>
+            </view>
+            <view class="weui-form-preview__bd">
+                <view class="weui-form-preview__item">
+                    <view style="font-weight:bolder;color:black;" class="weui-form-preview__label">用户名</view>
+                    <view class="weui-form-preview__value">{{item.username}}</view>
+                </view>
+                <view class="weui-form-preview__item">
+                    <view style="font-weight:bolder;color:black;" class="weui-form-preview__label">口令</view>
+                    <view class="weui-form-preview__value">{{item.token}}</view>
+                </view>
+                <view class="weui-form-preview__item">
+                    <view style="font-weight:bolder;color:black;" class="weui-form-preview__label">提示</view>
+                    <view class="weui-form-preview__value">{{item.tip}}</view>
+                </view>
+            </view>
+            <view class="weui-form-preview__ft">
+              <navigator data-accountname="{{item.accountName}}" bindtap="remove" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">删除</navigator>
+                <navigator url="../edit/accountEdit?accountName={{item.accountName}}" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">编辑</navigator>
+                <navigator url="../password/accountPassword?accountName={{item.accountName}}" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">生成密码</navigator>
+            </view>
+        </view>
+    </view>
+  </view>
+  <view class="page__bd page__bd_spacing">
+    <view class="button-sp-area">
+      <button bindtap="add" class="weui-btn" type="primary" plain="true">添加</button>
+    </view>
+  </view>
+
+</view>
