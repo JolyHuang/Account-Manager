@@ -12,33 +12,36 @@ module.exports = {
     var tokenCharArray = this.geTokenCharArray(token);
     tokenCharArray = this.reorderTokenCharArray(tokenCharArray, sha3MD5HashNumber);
 
-    var password="";
     var parent = this;
-    tokenCharArray.forEach(function (tokenChar) {
-      if (StringUtils.isNumber(tokenChar)) {
-        password += parent.getNumber(sha3MD5HashNumber, tokenChar);
-      } else if (StringUtils.isAlphabet(tokenChar)){
-        password += parent.getAlphabet(sha3MD5HashNumber, tokenChar);
-      }else {
-        password += parent.getPunctuation(sha3MD5HashNumber, tokenChar);
-      }
+    var currentToken = tokenCharArray[sha3MD5HashNumber % tokenCharArray.length];
+    tokenCharArray.forEach(function (tokenChar, index) {
+      var curentChar = parent.getPasswordChar(sha3MD5HashNumber, tokenChar, currentToken);
+      tokenCharArray[index] = curentChar;
+      currentToken += curentChar;
     });
-    return password;
-  },
-  getNumber: function (sha3MD5HashNumber, tokenChar) {
-    var num = sha3MD5HashNumber + tokenChar.charCodeAt(0);
 
+    tokenCharArray[0] = this.getPasswordChar(sha3MD5HashNumber, tokenCharArray[0], this.arrayToString(tokenCharArray));
+    
+    return this.arrayToString(tokenCharArray);
+  },
+  getNumber: function (num) {
     return StringUtils.numberArray[num % StringUtils.numberArray.length];
   },
-  getAlphabet: function (sha3MD5HashNumber, tokenChar) {
-    var num = sha3MD5HashNumber + tokenChar.charCodeAt(0);
-
+  getAlphabet: function (num) {
     return StringUtils.alphabetArray[num % StringUtils.alphabetArray.length];
   },
-  getPunctuation: function (sha3MD5HashNumber, tokenChar) {
-    var num = sha3MD5HashNumber + tokenChar.charCodeAt(0);
-
+  getPunctuation: function (num) {
     return StringUtils.punctuationArray[num % StringUtils.punctuationArray.length];
+  },
+  getPasswordChar: function (sha3MD5HashNumber, tokenChar, currentToken) {
+    if (StringUtils.isNumber(tokenChar)) {
+      return this.getNumber(sha3MD5HashNumber + this.getUnicodeTotal(currentToken)).toString();
+    } else if (StringUtils.isAlphabet(tokenChar)) {
+      return this.getAlphabet(sha3MD5HashNumber + this.getUnicodeTotal(currentToken));
+    } else {
+      return this.getPunctuation(sha3MD5HashNumber + this.getUnicodeTotal(currentToken));
+    }
+
   },
   getSHA3MD5Hash: function(str) {
     var token = SHA3.SHA3(str);
@@ -72,20 +75,27 @@ module.exports = {
     var tokenCharArrayLength = tokenCharArray.length;
     var tempTokenCharArray = new Array();
     tokenCharArray.forEach(function (tokenChar, index) {
-      tempTokenCharArray[index] = tokenCharArray[(sha3MD5HashNumber + index) % tokenCharArray.length];
+      tempTokenCharArray[index] = tokenCharArray[(sha3MD5HashNumber + index) % tokenCharArrayLength];
     });
     tempTokenCharArray.forEach(function (tokenChar, index) {
       tokenCharArray[index] = tokenChar;
     });
 
-    var currentChar = tokenCharArray[0];
-    tokenCharArray.splice(0, 1)
+    var currentToken = tokenCharArray[0];
+    tokenCharArray.splice(0, 1);
+    var currentToken = tokenCharArray[0];
     for (var i = 1; i < tokenCharArrayLength; i++) {
-      var currentIndex = (sha3MD5HashNumber + currentChar.charCodeAt(0)) % tokenCharArray.length;
+      var currentIndex = (sha3MD5HashNumber + this.getUnicodeTotal(currentToken)) % tokenCharArray.length;
       currentChar = tokenCharArray[currentIndex];
       tempTokenCharArray[i] = currentChar;
       tokenCharArray.splice(currentIndex,1);
+      currentToken += currentChar;
     };
+
+    var currentIndex = (sha3MD5HashNumber + this.getUnicodeTotal(currentToken)) % tempTokenCharArray.length;
+    var currentChar = tempTokenCharArray[currentIndex];
+    tempTokenCharArray[currentIndex] = tempTokenCharArray[0];
+    tempTokenCharArray[0] = currentChar;
 
     return tempTokenCharArray;
   }

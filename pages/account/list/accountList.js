@@ -4,12 +4,14 @@ Page({
     accountList: null
   },
   onLoad: function () {
-    var accountList = accountObj.load();
-    this.setData({ accountList });
+    var accountGroups = accountObj.load();
+    var accountList = accountGroups[0].accountList;
+    this.setData({ accountList: accountList });
   },
   onShow: function() {
-    var accountList = accountObj.load();
-    this.setData({ accountList});
+    var accountGroups = accountObj.load();
+    var accountList = accountGroups[0].accountList;
+    this.setData({ accountList: accountList });
   },
   add: function() {
     wx.navigateTo({
@@ -18,7 +20,8 @@ Page({
   },
   remove: function(event) {
     accountObj.remove(event.currentTarget.dataset.accountname);
-    var accountList = accountObj.load();
-    this.setData({ accountList });
+    var accountGroups = accountObj.load();
+    var accountList = accountGroups[0].accountList;
+    this.setData({ accountList: accountList });
   }
 });

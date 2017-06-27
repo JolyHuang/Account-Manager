@@ -24,12 +24,11 @@ Page({
   generatePassword: function (e) {
     var secureKey = this.data.secureKey;
     if (StringUtils.isNull(secureKey)) {
-      wx.showToast({
-        title: "密钥不能为空！",
-        icon: "fail",
-        duration: 3000
+      wx.showModal({
+        content: "密钥不能为空！",
+        showCancel: false
       });
-      throw "密钥不能为空密钥不能为空！";
+      throw "密钥不能为空！";
     };
 
     var accountName = this.data.accountName;

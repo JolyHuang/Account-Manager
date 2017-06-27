@@ -31,19 +31,17 @@ Page({
   edit: function (e) {
 
     if (StringUtils.isNull(this.data.username)) {
-      wx.showToast({
-        title: "用户名不能为空！",
-        icon: "fail",
-        duration: 3000
+      wx.showModal({
+        content: "用户名不能为空！",
+        showCancel: false
       });
       throw "用户名不能为空！";
     };
 
     if (StringUtils.isNull(this.data.token)) {
-      wx.showToast({
-        title: "口令不能为空！",
-        icon: "fail",
-        duration: 3000
+      wx.showModal({
+        content: "口令不能为空！",
+        showCancel: false
       });
       throw "口令不能为空！";
     };
