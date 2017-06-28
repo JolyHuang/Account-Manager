@@ -73,6 +73,11 @@ module.exports = {
   },
   reorderTokenCharArray(tokenCharArray, sha3MD5HashNumber) {
     var tokenCharArrayLength = tokenCharArray.length;
+
+    if (tokenCharArrayLength == 1){
+      return tokenCharArray;
+    };
+
     var tempTokenCharArray = new Array();
     tokenCharArray.forEach(function (tokenChar, index) {
       tempTokenCharArray[index] = tokenCharArray[(sha3MD5HashNumber + index) % tokenCharArrayLength];

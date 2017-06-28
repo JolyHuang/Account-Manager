@@ -49,7 +49,7 @@ Page({
       accountName: this.data.accountName,
       username: this.data.username,
       token: this.data.token,
-      tip: this.data.tip
+      tip: this.data.tip || ""
     }
     
     accountObj.add(account);
